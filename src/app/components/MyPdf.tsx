@@ -15,7 +15,7 @@ const MyDocument = ({ data }: any) => {
 							<Text style={{ color: '#fff' }}>NS Automobile</Text>
 						</View>
 						<View>
-							<Image src={window.location.origin + "/NsLogo.jpeg"} style={{ width: 50, height: 40 }} />
+							<Image src={typeof window === "undefined" ? '': window.location.origin + "/NsLogo.jpeg"} style={{ width: 50, height: 40 }} />
 						</View>
 					</View>
 					<View style={styles.body}>
@@ -57,7 +57,7 @@ const MyDocument = ({ data }: any) => {
 							<Text style={{ color: '#fff', paddingTop: 5 }}>Tel: +91-9880111425</Text>
 						</View>
 						<View>
-							<Image src={window.location.origin + "/NsLogo.jpeg"} style={{ width: 50, height: 40 }} />
+							<Image src={typeof window === "undefined" ? '' : window.location.origin + "/NsLogo.jpeg"} style={{ width: 50, height: 40 }} />
 						</View>
 					</View>
 				</View>
