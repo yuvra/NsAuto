@@ -53,7 +53,7 @@ const Customer = () => {
           bills.length === 0 && 
           <div style={{ backgroundColor: '#1c2739', color: 'white', padding: 10, display: 'flex', flexDirection: 'column' }}>
             <span style={{paddingBottom: 10}}>No Bills Found For {mobileNumber}</span>
-            <Image width={200} height={100} src={typeof window === "undefined" ? '' : window.location.origin + "/NsLogo.jpeg"} />
+            <Image preview={false} width={200} height={100} src={"/NsLogo.jpeg"} />
           </div>
         }
 

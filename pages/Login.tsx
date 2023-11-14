@@ -19,7 +19,7 @@ const Login = () => {
       <Card style={{ padding: 50, backgroundColor: '#E4E4E4' }} >
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
           <div style={{ paddingBottom: 20 }}>
-            <Image width={200} height={100} src={typeof window === "undefined" ? '': window.location.origin + "/NsLogo.jpeg"} />
+            <Image preview={false} width={200} height={100} src={"/NsLogo.jpeg"} />
           </div>
           <div>
             <div >Username</div>
