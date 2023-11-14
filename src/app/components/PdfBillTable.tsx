@@ -57,8 +57,8 @@ const ReportTable = ({ data }: any) => {
 			</View>
 			{data.map((row: any, i: any) => {
 
-				const itemDescription = row['Item Description'];
-				const itemDescriptionArr = itemDescription.match(/.{1,9}/g)
+				const itemDescription: any ='aaaaaaaaaaaaaaaajknjknjjjjjjjjjjjjajajajajajajajajjaa';
+				const itemDescriptionArr = itemDescription.match(/.{1,40}/g)
 				finalTotalAmount = finalTotalAmount + row.Total;
 
 				return (
