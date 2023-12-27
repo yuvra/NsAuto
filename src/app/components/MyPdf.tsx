@@ -2,6 +2,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import ReportTable from './PdfBillTable';
+import moment from 'moment';
 
 const MyDocument = ({ data }: any) => {
 	console.log("data", data);
@@ -11,16 +12,17 @@ const MyDocument = ({ data }: any) => {
 			<Page style={styles.page}>
 				<View style={styles.section}>
 					<View fixed style={styles.header}>
-						<View>
+						<View style={{ display: 'flex', width: '38%' }}>
 							<Text style={{ color: '#fff' }}>NS Automobile</Text>
+							<Text style={{ color: '#fff', fontSize: 11 }}>Dudhane estate, opposite Dudhane lawns, Karve Nagar Pune - 411052</Text>
 						</View>
 						<View>
-							<Image src={"/NsLogo.jpeg"} style={{ width: 50, height: 40 }} />
+							<Image src={"/NsLogo.jpeg"} style={{ width: 80, height: 60 }} />
 						</View>
 					</View>
 					<View style={styles.body}>
 						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{fontSize: 13,  width: '30%', color: 'black' }}>Name</Text>
+							<Text style={{ fontSize: 13, width: '30%', color: 'black' }}>Name</Text>
 							<Text style={{ color: 'black', fontSize: 13 }}>{data?.name}</Text>
 						</div>
 						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
@@ -37,15 +39,11 @@ const MyDocument = ({ data }: any) => {
 						</div>
 						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
 							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Billing Date</Text>
-							<Text style={{ color: 'black', fontSize: 13 }}>{data?.date}</Text>
+							<Text style={{ color: 'black', fontSize: 13 }}>{moment(data?.date).format('DD-MM-YYYY')}</Text>
 						</div>
 						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Note</Text>
-							<Text style={{ color: 'black',fontSize: 13 }}>{data?.note}</Text>
-						</div>
-						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Vehicle Information</Text>
-							<Text style={{ color: 'black' ,fontSize: 13}}>{data?.vehicleInformation}</Text>
+							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Service Note</Text>
+							<Text style={{ color: 'black', fontSize: 13 }}>{data?.note}</Text>
 						</div>
 						<View>
 							<ReportTable data={data.billingData} />
@@ -54,10 +52,10 @@ const MyDocument = ({ data }: any) => {
 					<View fixed style={styles.footer}>
 						<View>
 							<Text style={{ color: '#fff' }}>NS Automobile</Text>
-							<Text style={{ color: '#fff', paddingTop: 5 }}>Tel: +91-9880111425</Text>
+							<Text style={{ color: '#fff', paddingTop: 5 }}>Contact: +91-9890111425</Text>
 						</View>
 						<View>
-							<Image src={"/NsLogo.jpeg"} style={{ width: 50, height: 40 }} />
+							<Image src={"/NsLogo.jpeg"} style={{ width: 80, height: 60 }} />
 						</View>
 					</View>
 				</View>
