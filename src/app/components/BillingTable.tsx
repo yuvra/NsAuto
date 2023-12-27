@@ -3,12 +3,12 @@ import { Button, ConfigProvider, Form, FormInstance, Input, InputRef, Popconfirm
 import React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
 
-const BillingTable: React.FC<any> = ({tableData, setTableData}) => {
+const BillingTable: React.FC<any> = ({ tableData, setTableData }) => {
 
     const [dataSource, setDataSource] = useState<DataType[]>([]);
     const [count, setCount] = useState(2);
 
-    useEffect(()=>{
+    useEffect(() => {
         setTableData(dataSource)
     }, [dataSource])
 
@@ -175,6 +175,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
     const [editing, setEditing] = useState(false);
     const inputRef = useRef<InputRef>(null);
     const form = useContext(EditableContext)!;
+    const [currentVal, setCurrentVal] = useState<any>(null)
 
     useEffect(() => {
         if (editing) {
@@ -211,7 +212,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
                     },
                 ]}
             >
-                <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+                <Input allowClear ref={inputRef} onPressEnter={save} onBlur={save}  onChange={(e)=>{setCurrentVal(e.target.value)}} value={currentVal} />
             </Form.Item>
         ) : (
             <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onClick={toggleEdit}>
