@@ -9,47 +9,55 @@ const MyDocument = ({ data }: any) => {
 
 	return (
 		<Document>
-			<Page style={styles.page}>
+			<Page style={styles.page} >
 				<View style={styles.section}>
 					<View fixed style={styles.header}>
 						<View style={{ display: 'flex', width: '38%' }}>
 							<Text style={{ color: '#fff' }}>NS Automobile</Text>
-							<Text style={{ color: '#fff', fontSize: 11 }}>Dudhane estate, opposite Dudhane lawns, Karve Nagar Pune - 411052</Text>
+							<Text style={{ color: '#fff', fontSize: 11 }}>Dudhane estate, opposite Dudhane lawns, Karve Nagar Pune - 411052,</Text>
+							<Text style={{ color: '#fff', fontSize: 11 }}>Contact: +91-9890111425</Text>
 						</View>
 						<View>
 							<Image src={"/NsLogo.jpeg"} style={{ width: 80, height: 60 }} />
 						</View>
 					</View>
 					<View style={styles.body}>
-						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ fontSize: 13, width: '30%', color: 'black' }}>Name</Text>
-							<Text style={{ color: 'black', fontSize: 13 }}>{data?.name}</Text>
-						</div>
-						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Mobile Number</Text>
-							<Text style={{ color: 'black', fontSize: 13 }}>{data?.mobileNumber}</Text>
-						</div>
-						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Vehicle Number</Text>
-							<Text style={{ color: 'black', fontSize: 13 }}>{data?.vehicleNumber}</Text>
-						</div>
-						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ color: 'black', width: '30%', fontSize: 13 }}>Kilometer Reading</Text>
-							<Text style={{ color: 'black', fontSize: 13 }}>{data?.kilometerReading}</Text>
-						</div>
-						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Billing Date</Text>
-							<Text style={{ color: 'black', fontSize: 13 }}>{moment(data?.date).format('DD-MM-YYYY')}</Text>
-						</div>
-						<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
-							<Text style={{ width: '30%', color: 'black', fontSize: 13 }}>Service Note</Text>
-							<Text style={{ color: 'black', fontSize: 13 }}>{data?.note}</Text>
-						</div>
+						<View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+							<View style={{ width: '50%' }}>
+								<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
+									<Text style={{ fontSize: 13, color: 'black' }}>Name:  </Text>
+									<Text style={{ color: 'black', fontSize: 13 }}>{data?.name}</Text>
+								</div>
+								<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
+									<Text style={{ color: 'black', fontSize: 13 }}>Mobile Number:  </Text>
+									<Text style={{ color: 'black', fontSize: 13 }}>{data?.mobileNumber}</Text>
+								</div>
+								<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
+									<Text style={{ color: 'black', fontSize: 13 }}>Vehicle Number:  </Text>
+									<Text style={{ color: 'black', fontSize: 13 }}>{data?.vehicleNumber}</Text>
+								</div>
+							</View>
+							<View style={{ width: '50%' }}>
+								<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
+									<Text style={{ color: 'black', fontSize: 13 }}>Kilometer Reading:  </Text>
+									<Text style={{ color: 'black', fontSize: 13 }}>{data?.kilometerReading}</Text>
+								</div>
+								<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
+									<Text style={{ color: 'black', fontSize: 13 }}>Billing Date:  </Text>
+									<Text style={{ color: 'black', fontSize: 13 }}>{moment(data?.date).format('DD-MM-YYYY')}</Text>
+								</div>
+								<div style={{ display: 'flex', flexDirection: 'row', width: '100%', paddingBottom: 10 }}>
+									<Text style={{ color: 'black', fontSize: 13 }}>Service Note:  </Text>
+									<Text style={{ color: 'black', fontSize: 13 }}>{data?.note}</Text>
+								</div>
+							</View>
+						</View>
+
 						<View>
 							<ReportTable data={data.billingData} />
 						</View>
 					</View>
-					<View fixed style={styles.footer}>
+					{/* <View fixed style={styles.footer}>
 						<View>
 							<Text style={{ color: '#fff' }}>NS Automobile</Text>
 							<Text style={{ color: '#fff', paddingTop: 5 }}>Contact: +91-9890111425</Text>
@@ -57,7 +65,7 @@ const MyDocument = ({ data }: any) => {
 						<View>
 							<Image src={"/NsLogo.jpeg"} style={{ width: 80, height: 60 }} />
 						</View>
-					</View>
+					</View> */}
 				</View>
 			</Page>
 		</Document>
@@ -68,7 +76,7 @@ const MyDocument = ({ data }: any) => {
 const styles = StyleSheet.create({
 	page: {
 		flexDirection: 'row',
-		backgroundColor: '#E4E4E4',
+		backgroundColor: '#FFF',
 		height: '100vh'
 	},
 	section: {
@@ -103,6 +111,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: '#1c2739'
+	},
+	infobody: {
+		display: 'flex',
+
+		backgroundColor: 'red'
 	}
 });
 

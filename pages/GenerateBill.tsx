@@ -5,6 +5,7 @@ import BillingTable from "@/app/components/BillingTable";
 import { db } from '@/app/FireBase/firebase'
 import { PDFViewer } from "@react-pdf/renderer";
 import MyPdf from "@/app/components/MyPdf";
+import moment from "moment";
 
 const GenerateBill = () => {
 
@@ -40,7 +41,7 @@ const GenerateBill = () => {
     })
 
     const payLoadData = {
-      date: '2023-10-28T12:47:32.938Z',
+      date: moment().toISOString(),
       kilometerReading: parseInt(kilometerReading),
       mobileNumber: mobileNumber,
       name: customerName,
@@ -82,7 +83,7 @@ const GenerateBill = () => {
 
         <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
           <div style={{ paddingRight: 40 }}>Customer Name</div>
-          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setcustomerName(e.target.value) }} value={customerName} />
+          <Input autoFocus required size="small" style={{ width: 300 }} onChange={(e) => { setcustomerName(e.target.value) }} value={customerName} />
         </div>
 
         <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>

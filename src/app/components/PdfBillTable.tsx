@@ -1,16 +1,14 @@
 'use client';
-import { Note, StyleSheet, Text, View } from '@react-pdf/renderer'
-import PropTypes from 'prop-types'
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
 
 const styles = StyleSheet.create({
 	table: {
 		width: '100%',
-		paddingTop: 40
+		border: '1px solid black'
 	},
 	row: {
 		display: 'flex',
 		flexDirection: 'row',
-		borderTop: '1px solid #EEE',
 		paddingTop: 8,
 		paddingBottom: 8,
 	},
@@ -22,13 +20,14 @@ const styles = StyleSheet.create({
 	},
 	// So Declarative and unDRY 👌
 	row1Spl: {
-		display: 'flex',	
+		display: 'flex',
 		width: '40%',
-		fontSize: 13
+		fontSize: 13,
+		fontWeight: 'bold'
 	},
 	row1: {
 		width: '40%',
-		fontSize: 13
+		fontSize: 13,
 	},
 	row2: {
 		width: '20%',
@@ -41,6 +40,9 @@ const styles = StyleSheet.create({
 	row4: {
 		width: '20%',
 		fontSize: 13
+	},
+	borderStyle: {
+		borderBottom: '1px solid black',
 	}
 })
 
@@ -49,7 +51,7 @@ const ReportTable = ({ data }: any) => {
 
 	return (
 		<View style={styles.table}>
-			<View style={[styles.row, styles.bold, styles.header]}>
+			<View style={[styles.row, styles.bold, styles.header, styles.borderStyle]}>
 				<Text style={styles.row1}>Item Description</Text>
 				<Text style={styles.row2}>Price</Text>
 				<Text style={styles.row3}>Quantity</Text>
@@ -62,7 +64,7 @@ const ReportTable = ({ data }: any) => {
 				finalTotalAmount = finalTotalAmount + row.Total;
 
 				return (
-					<View key={i} style={styles.row} wrap={false}>
+					<View key={i} style={[styles.row, styles.borderStyle]} wrap={false}>
 
 						<View style={styles.row1Spl} >
 							<View style={{}} >
@@ -89,11 +91,11 @@ const ReportTable = ({ data }: any) => {
 
 			})}
 
-		<View>
-			<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}>
-				<Text style={{fontSize: 20, fontWeight: 600}}>Total: {finalTotalAmount}/-</Text>
-			</div>
-		</View>
+			<View>
+				<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+					<Text style={{ fontSize: 18, fontWeight: 600 }}>Total: {finalTotalAmount}/-</Text>
+				</div>
+			</View>
 		</View>
 	)
 }
