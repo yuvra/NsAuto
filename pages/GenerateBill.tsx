@@ -14,6 +14,8 @@ const GenerateBill = () => {
   const [mobileNumber, setMobileNumber] = useState<any>('')
   const [vehicleNumber, setVehicleNumber] = useState<any>('')
   const [kilometerReading, setKilometerReading] = useState<any>('')
+  const [note, setNote] = useState<any>('')
+  const [vehicleInformation, setVehicleInformation] = useState('')
   const [generateDisabled, setGenerateDisabled] = useState(true)
   const [api, contextHolder] = notification.useNotification();
   const [showDownload, setShowDownload] = useState<boolean>(false);
@@ -45,8 +47,8 @@ const GenerateBill = () => {
       kilometerReading: parseInt(kilometerReading),
       mobileNumber: mobileNumber,
       name: customerName,
-      note: 'Test Note',
-      vehicleInformation: 'test vehicleInformation',
+      note: note,
+      vehicleInformation: vehicleInformation,
       vehicleNumber: vehicleNumber,
       billingData: billingData
     }
@@ -99,6 +101,16 @@ const GenerateBill = () => {
         <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
           <div style={{ paddingRight: 20 }}>Kilometer Reading</div>
           <Input required size="small" style={{ width: 300 }} onChange={(e) => { setKilometerReading(e.target.value) }} value={kilometerReading} />
+        </div>
+
+        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
+          <div style={{ paddingRight: 110 }}>Note</div>
+          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setNote(e.target.value) }} value={note} maxLength={25} />
+        </div>
+
+        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
+          <div style={{ paddingRight: 60 }}>Vehicle Note</div>
+          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setVehicleInformation(e.target.value) }} value={vehicleInformation} />
         </div>
 
       </div>

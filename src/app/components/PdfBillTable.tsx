@@ -93,7 +93,7 @@ const ReportTable = ({ data }: any) => {
 
 			<View>
 				<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
-					<Text style={{ fontSize: 18, fontWeight: 600 }}>Total: {finalTotalAmount}/-</Text>
+					<Text style={{ fontSize: 18, fontWeight: 600 }}>Grand total: {finalTotalAmount}/-</Text>
 				</div>
 			</View>
 		</View>

@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { PDFViewer, Page, View, Document, Text } from '@react-pdf/renderer';
 import MyPdf from "@/app/components/MyPdf";
+import moment from "moment";
 
 const CustomerDetails = () => {
 
@@ -92,7 +93,7 @@ const CustomerDetails = () => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', width: '100%', }}>
               <div style={{ width: '30%', color: 'white' }}>Billing Date</div>
-              <div style={{ color: 'white' }}>{data.current?.date}</div>
+              <div style={{ color: 'white' }}>{moment(data.current?.date).format('DD-MM-YYYY hh:mm:ss A') }</div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', width: '100%', }}>
               <div style={{ width: '30%', color: 'white' }}>Note</div>
