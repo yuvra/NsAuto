@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import { Button, Input, Modal, notification } from "antd";
+import { Button, Card, Input, Modal, notification } from "antd";
 import BillingTable from "@/app/components/BillingTable";
 import { db } from '@/app/FireBase/firebase'
 import { PDFViewer } from "@react-pdf/renderer";
@@ -76,64 +76,107 @@ const GenerateBill = () => {
   };
 
   return (
-    <div style={{ height: '97vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ padding: 5 }}>
-        <span>Generate Bill</span>
+    <div
+      style={{
+        height: "97vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div style={styles.header}>
+        <span style={styles.headerText}>🧾 Generate Bill</span>
       </div>
       {contextHolder}
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-
-        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
-          <div style={{ paddingRight: 40 }}>Customer Name</div>
-          <Input autoFocus required size="small" style={{ width: 300 }} onChange={(e) => { setcustomerName(e.target.value) }} value={customerName} />
+      <Card style={styles.formCard} bordered={false}>
+        <div style={styles.formLayout}>
+          {[
+            {
+              label: "Customer Name",
+              value: customerName,
+              setter: setcustomerName,
+            },
+            {
+              label: "Mobile Number",
+              value: mobileNumber,
+              setter: setMobileNumber,
+            },
+            {
+              label: "Vehicle Number",
+              value: vehicleNumber,
+              setter: setVehicleNumber,
+            },
+            {
+              label: "Kilometer Reading",
+              value: kilometerReading,
+              setter: setKilometerReading,
+            },
+            { label: "Note", value: note, setter: setNote, maxLength: 25 },
+            {
+              label: "Vehicle Note",
+              value: vehicleInformation,
+              setter: setVehicleInformation,
+            },
+          ].map((field, idx) => (
+            <div key={idx} style={styles.formRow}>
+              <label style={styles.label}>{field.label}</label>
+              <Input
+                size="small"
+                required
+                style={styles.input}
+                value={field.value}
+                onChange={(e) => field.setter(e.target.value)}
+                maxLength={field.maxLength || undefined}
+              />
+            </div>
+          ))}
         </div>
+      </Card>
 
-        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
-          <div style={{ paddingRight: 40 }}>Mobile Number</div>
-          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setMobileNumber(e.target.value) }} value={mobileNumber} />
-        </div>
-
-        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
-          <div style={{ paddingRight: 40 }}>Vehicle Number</div>
-          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setVehicleNumber(e.target.value) }} value={vehicleNumber} />
-        </div>
-
-        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
-          <div style={{ paddingRight: 20 }}>Kilometer Reading</div>
-          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setKilometerReading(e.target.value) }} value={kilometerReading} />
-        </div>
-
-        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
-          <div style={{ paddingRight: 110 }}>Note</div>
-          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setNote(e.target.value) }} value={note} maxLength={25} />
-        </div>
-
-        <div style={{ paddingRight: 20, display: 'flex', flexDirection: 'row', paddingBottom: 10 }}>
-          <div style={{ paddingRight: 60 }}>Vehicle Note</div>
-          <Input required size="small" style={{ width: 300 }} onChange={(e) => { setVehicleInformation(e.target.value) }} value={vehicleInformation} />
-        </div>
-
-      </div>
-
-      <div style={{ width: '100%' }}>
+      <div style={{ width: "100%" }}>
         <BillingTable tableData={tableData} setTableData={setTableData} />
       </div>
 
       <div>
-        {generateDisabled && <Button disabled={customerName === '' || mobileNumber === '' || vehicleNumber === '' || kilometerReading === ''} onClick={() => { handleGenerateBill() }} type="primary" style={{ marginTop: 20, backgroundColor: '#1d1d1f', cursor: 'pointer' }} color="#1d1d1f">
-          Generate Bill
-        </Button>}
+        {generateDisabled && (
+          <Button
+            disabled={
+              customerName === "" ||
+              mobileNumber === "" ||
+              vehicleNumber === "" ||
+              kilometerReading === ""
+            }
+            onClick={() => {
+              handleGenerateBill();
+            }}
+            type="primary"
+            style={{
+              marginTop: 20,
+              backgroundColor: "#1d1d1f",
+              cursor: "pointer",
+            }}
+            color="#1d1d1f"
+          >
+            Generate Bill
+          </Button>
+        )}
       </div>
 
       <div>
-        <Modal open={showDownload} onCancel={() => { setShowDownload(false) }} footer={false} >
+        <Modal
+          open={showDownload}
+          onCancel={() => {
+            setShowDownload(false);
+          }}
+          footer={false}
+        >
           <PDFViewer showToolbar height={400} width={400}>
             <MyPdf data={finalData} />
           </PDFViewer>
         </Modal>
       </div>
     </div>
-  )
+  );
 }
 
 
@@ -160,6 +203,54 @@ const data = [
     Total: 320,
   },
 ]
+
+const styles: Record<string, React.CSSProperties> = {
+  header: {
+    padding: '16px 0',
+    marginBottom: 20,
+    width: '100%',
+    textAlign: 'center',
+    borderBottom: '1px solid #e0e0e0',
+    fontFamily: 'Poppins'
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 600,
+    color: '#1d1d1f',
+    letterSpacing: 1,
+  },
+  formCard: {
+    padding: 24,
+    marginBottom: 24,
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
+    width: '100%',
+    maxWidth: 700,
+  },
+  formLayout: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 16,
+  },
+  formRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+  },
+  label: {
+    minWidth: 150,
+    fontWeight: 500,
+    fontSize: 14,
+    color: '#444',
+  },
+  input: {
+    flex: 1,
+    maxWidth: 350,
+  },
+};
+
 
 export default GenerateBill;
 

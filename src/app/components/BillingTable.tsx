@@ -117,6 +117,7 @@ const BillingTable: React.FC<any> = ({ tableData, setTableData }) => {
                     bordered
                     dataSource={dataSource}
                     columns={columns as ColumnTypes}
+                    size="large"
                 />
                 <Button onClick={handleAdd} type="primary" style={{ marginTop: 20 }} >
                     Add a row
