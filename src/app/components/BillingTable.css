@@ -1,0 +1,63 @@
+.billing-container {
+  padding: 24px;
+}
+
+.billing-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.billing-table th,
+.billing-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.delete-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editable-input {
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.item-card {
+  background-color: #f09797;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.card-field {
+  margin-top: 12px;
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.qty-display {
+  min-width: 24px;
+  text-align: center;
+}
+
+.total-bar {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}

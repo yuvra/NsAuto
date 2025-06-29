@@ -1,46 +1,44 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Input, Modal, notification } from "antd";
 import BillingTable from "@/app/components/BillingTable";
-import { db } from '@/app/FireBase/firebase'
+import { db } from "@/app/FireBase/firebase";
 import { PDFViewer } from "@react-pdf/renderer";
 import MyPdf from "@/app/components/MyPdf";
 import moment from "moment";
 
 const GenerateBill = () => {
-
-  const [tableData, setTableData] = useState<any>([])
-  const [customerName, setcustomerName] = useState<any>('')
-  const [mobileNumber, setMobileNumber] = useState<any>('')
-  const [vehicleNumber, setVehicleNumber] = useState<any>('')
-  const [kilometerReading, setKilometerReading] = useState<any>('')
-  const [note, setNote] = useState<any>('')
-  const [vehicleInformation, setVehicleInformation] = useState('')
-  const [generateDisabled, setGenerateDisabled] = useState(true)
+  const [tableData, setTableData] = useState<any>([]);
+  const [customerName, setcustomerName] = useState<any>("");
+  const [mobileNumber, setMobileNumber] = useState<any>("");
+  const [vehicleNumber, setVehicleNumber] = useState<any>("");
+  const [kilometerReading, setKilometerReading] = useState<any>("");
+  const [note, setNote] = useState<any>("");
+  const [vehicleInformation, setVehicleInformation] = useState("");
+  const [generateDisabled, setGenerateDisabled] = useState(true);
   const [api, contextHolder] = notification.useNotification();
   const [showDownload, setShowDownload] = useState<boolean>(false);
-  const [finalData, setFinalData] = useState<any>()
+  const [finalData, setFinalData] = useState<any>();
 
   useEffect(() => {
     if (tableData.length > 0) {
-      setGenerateDisabled(true)
+      setGenerateDisabled(true);
     } else {
-      setGenerateDisabled(false)
+      setGenerateDisabled(false);
     }
-  }, [tableData])
+  }, [tableData]);
 
   const handleGenerateBill = async () => {
-
-    const billingData: any = []
+    const billingData: any = [];
     tableData.map((billingItem: any) => {
       billingData.push({
         key: billingItem.key,
-        "Item Description": billingItem['Item Description'],
-        Price: parseInt(billingItem.Price),
-        Quantity: parseInt(billingItem.Quantity),
-        Total: parseInt(billingItem.Price) * parseInt(billingItem.Quantity),
-      })
-    })
+        "Item Description": billingItem.description,
+        Price: parseInt(billingItem.price),
+        Quantity: parseInt(billingItem.quantity),
+        Total: parseInt(billingItem.price) * parseInt(billingItem.quantity),
+      });
+    });
 
     const payLoadData = {
       date: moment().toISOString(),
@@ -50,28 +48,32 @@ const GenerateBill = () => {
       note: note,
       vehicleInformation: vehicleInformation,
       vehicleNumber: vehicleNumber,
-      billingData: billingData
-    }
-    setFinalData(payLoadData)
+      billingData: billingData,
+    };
+    setFinalData(payLoadData);
     try {
-      await db.collection('customer').add(payLoadData);
-      await openNotification("Document successfully written!")
-      await setShowDownload(true)
+      await db.collection("customer").add(payLoadData);
+      await openNotification("Document successfully written!");
+      await setShowDownload(true);
     } catch (error) {
-      console.error('Error writing document: ', error);
+      console.error("Error writing document: ", error);
     }
-
-  }
-
+  };
 
   const openNotification = (text: string) => {
     api.open({
-      message: 'Invoice Generated Successfully',
-      description: '',
+      message: "Invoice Generated Successfully",
+      description: "",
       duration: 3,
-      style: { backgroundColor: '#3cb043', height: 5, width: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' },
-      closeIcon: null
-
+      style: {
+        backgroundColor: "#3cb043",
+        height: 5,
+        width: 300,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      closeIcon: null,
     });
   };
 
@@ -177,73 +179,72 @@ const GenerateBill = () => {
       </div>
     </div>
   );
-}
-
+};
 
 const data = [
   {
-    key: '0',
-    "Item Description": 'Edward King 0',
+    key: "0",
+    "Item Description": "Edward King 0",
     Price: 32,
     Quantity: 10,
     Total: 320,
   },
   {
-    key: '1',
-    "Item Description": 'Edward King 0',
+    key: "1",
+    "Item Description": "Edward King 0",
     Price: 16,
     Quantity: 20,
     Total: 320,
   },
   {
-    key: '2',
-    "Item Description": 'Edward King 20',
+    key: "2",
+    "Item Description": "Edward King 20",
     Price: 16,
     Quantity: 20,
     Total: 320,
   },
-]
+];
 
 const styles: Record<string, React.CSSProperties> = {
   header: {
-    padding: '16px 0',
+    padding: "16px 0",
     marginBottom: 20,
-    width: '100%',
-    textAlign: 'center',
-    borderBottom: '1px solid #e0e0e0',
-    fontFamily: 'Poppins'
+    width: "100%",
+    textAlign: "center",
+    borderBottom: "1px solid #e0e0e0",
+    fontFamily: "Poppins",
   },
   headerText: {
     fontSize: 24,
     fontWeight: 600,
-    color: '#1d1d1f',
+    color: "#1d1d1f",
     letterSpacing: 1,
   },
   formCard: {
     padding: 24,
     marginBottom: 24,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 12,
-    boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
-    width: '100%',
+    boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+    width: "100%",
     maxWidth: 700,
   },
   formLayout: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: 16,
   },
   formRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     gap: 20,
   },
   label: {
     minWidth: 150,
     fontWeight: 500,
     fontSize: 14,
-    color: '#444',
+    color: "#444",
   },
   input: {
     flex: 1,
@@ -251,6 +252,4 @@ const styles: Record<string, React.CSSProperties> = {
   },
 };
 
-
 export default GenerateBill;
-
