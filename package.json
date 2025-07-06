@@ -12,6 +12,7 @@
     "@react-pdf/renderer": "^3.1.14",
     "antd": "^5.10.2",
     "firebase": "8.9",
+    "firebase-admin": "^13.4.0",
     "moment": "^2.29.4",
     "next": "14.0.0",
     "react": "^18",

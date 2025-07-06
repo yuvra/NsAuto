@@ -10,7 +10,7 @@ interface FormData {
 
 interface Location {
   lat: number | null;
-  lon: number | null;
+  lng: number | null;
 }
 
 const WeatherRegistrationForm: React.FC = () => {
@@ -23,11 +23,12 @@ const WeatherRegistrationForm: React.FC = () => {
 
   const [location, setLocation] = useState<Location>({
     lat: null,
-    lon: null,
+    lng: null,
   });
 
   const [submitted, setSubmitted] = useState(false);
   const [locationFetched, setLocationFetched] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -35,13 +36,13 @@ const WeatherRegistrationForm: React.FC = () => {
         (pos) => {
           setLocation({
             lat: pos.coords.latitude,
-            lon: pos.coords.longitude,
+            lng: pos.coords.longitude,
           });
           setLocationFetched(true);
         },
         (err) => {
           console.warn('Location error:', err.message);
-          setLocationFetched(true); // Mark as attempted
+          setLocationFetched(true);
         }
       );
     } else {
@@ -61,21 +62,28 @@ const WeatherRegistrationForm: React.FC = () => {
 
     const payload = {
       ...formData,
-      location: location.lat && location.lon
-        ? location
-        : { lat: 'Not Available', lon: 'Not Available' },
+      location: location.lat !== null && location.lng !== null
+        ? { lat: location.lat, lng: location.lng }
+        : null,
     };
 
-    // console.log('Form Submitted:', payload);
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-    // Example: send to backend API
-    await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    setSubmitted(true);
+      if (!res.ok) {
+        const { error } = await res.json();
+        setError(error || 'Something went wrong');
+      } else {
+        setSubmitted(true);
+      }
+    } catch (err: any) {
+      setError('Failed to submit form.');
+      console.error(err);
+    }
   };
 
   return (
@@ -137,14 +145,16 @@ const WeatherRegistrationForm: React.FC = () => {
             </label>
 
             {locationFetched ? (
-              location.lat && location.lon ? (
-                <p>📍 तुमचे स्थान: {location.lat.toFixed(4)}, {location.lon.toFixed(4)}</p>
+              location.lat && location.lng ? (
+                <p>📍 तुमचे स्थान: {location.lat.toFixed(4)}, {location.lng.toFixed(4)}</p>
               ) : (
                 <p style={{ color: 'red' }}>❗ लोकेशन मिळवता आले नाही.</p>
               )
             ) : (
               <p>📡 लोकेशन शोधत आहोत...</p>
             )}
+
+            {error && <p style={{ color: 'red' }}>{error}</p>}
 
             <button type="submit">नोंदणी करा</button>
           </form>

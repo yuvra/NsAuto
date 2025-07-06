@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import { db } from '@/app/lib/firebaseClient'; // assuming this exports firebase.firestore()
 
 interface Registration {
   name: string;
@@ -11,7 +14,7 @@ interface Registration {
     lat: number;
     lng: number;
   } | null;
-  timestamp: string;
+  timestamp: any; // Firestore Timestamp object
 }
 
 export default function ViewRegistrationsPage() {
@@ -19,13 +22,39 @@ export default function ViewRegistrationsPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/registrations.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load registrations');
-        return res.json();
-      })
-      .then((data) => setRegistrations(data))
-      .catch((err) => setError(err.message));
+    const fetchData = async () => {
+      try {
+        const snapshot = await db.collection('weatherRegistrations').get();
+
+        const data = snapshot.docs.map((doc) => {
+          const d = doc.data();
+        
+          let formattedTimestamp = '';
+          if (d.timestamp && typeof d.timestamp.toDate === 'function') {
+            // Firestore Timestamp object
+            formattedTimestamp = d.timestamp.toDate().toISOString();
+          } else if (typeof d.timestamp === 'string') {
+            // already ISO string
+            formattedTimestamp = d.timestamp;
+          } else {
+            formattedTimestamp = '';
+          }
+        
+          return {
+            ...d,
+            timestamp: formattedTimestamp,
+          } as Registration;
+        });
+
+
+        setRegistrations(data);
+      } catch (err: any) {
+        console.error('Error loading data:', err);
+        setError('डेटा लोड करण्यात अडचण आली.');
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -56,9 +85,15 @@ export default function ViewRegistrationsPage() {
                 <td style={td}>{reg.village}</td>
                 <td style={td}>{reg.landSize || '-'}</td>
                 <td style={td}>
-                  {reg.location ? `${reg.location.lat.toFixed(4)}, ${reg.location.lng.toFixed(4)}` : 'NA'}
+                  {reg.location
+                    ? `${reg.location.lat}, ${reg.location.lng}`
+                    : 'NA'}
                 </td>
-                <td style={td}>{new Date(reg.timestamp).toLocaleString()}</td>
+                <td style={td}>
+                  {reg.timestamp
+                    ? new Date(reg.timestamp).toLocaleString()
+                    : '—'}
+                </td>
               </tr>
             ))}
           </tbody>
