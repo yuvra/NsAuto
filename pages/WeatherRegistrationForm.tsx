@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Spin } from 'antd';
 import './WeatherRegistrationForm.css';
 
 interface FormData {
@@ -29,6 +30,7 @@ const WeatherRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [locationFetched, setLocationFetched] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // NEW
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -59,6 +61,8 @@ const WeatherRegistrationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
     const payload = {
       ...formData,
@@ -83,6 +87,8 @@ const WeatherRegistrationForm: React.FC = () => {
     } catch (err: any) {
       setError('Failed to submit form.');
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,75 +96,76 @@ const WeatherRegistrationForm: React.FC = () => {
     <div className="weather-registration-container">
       <div className="weather-registration-card">
         <h2>हवामान केंद्र नोंदणी फॉर्म</h2>
-        {submitted ? (
-          <div className="success-message">
-            ✅ नोंदणी यशस्वी!{' '}
-            {location.lat === null ? (
-              <span style={{ color: 'darkorange' }}>
-                (स्थान उपलब्ध झाले नाही)
-              </span>
-            ) : (
-              'लोकेशनसह फॉर्म सबमिट झाला आहे.'
-            )}
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="weather-form">
-            <label>
-              नाव:
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              मोबाईल नंबर:
-              <input
-                type="tel"
-                name="mobile"
-                value={formData.mobile}
-                onChange={handleChange}
-                pattern="[0-9]{10}"
-                required
-              />
-            </label>
-            <label>
-              गाव:
-              <input
-                type="text"
-                name="village"
-                value={formData.village}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              शेती क्षेत्र (गुंठे/एकर):
-              <input
-                type="text"
-                name="landSize"
-                value={formData.landSize}
-                onChange={handleChange}
-              />
-            </label>
 
-            {locationFetched ? (
-              location.lat && location.lng ? (
-                <p>📍 तुमचे स्थान: {location.lat.toFixed(4)}, {location.lng.toFixed(4)}</p>
+        <Spin spinning={loading}>
+          {submitted ? (
+            <div className="success-message">
+              ✅ नोंदणी यशस्वी!{' '}
+              {location.lat === null ? (
+                <span style={{ color: 'darkorange' }}>(स्थान उपलब्ध झाले नाही)</span>
               ) : (
-                <p style={{ color: 'red' }}>❗ लोकेशन मिळवता आले नाही.</p>
-              )
-            ) : (
-              <p>📡 लोकेशन शोधत आहोत...</p>
-            )}
+                'लोकेशनसह फॉर्म सबमिट झाला आहे.'
+              )}
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="weather-form">
+              <label>
+                नाव:
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                मोबाईल नंबर:
+                <input
+                  type="tel"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  pattern="[0-9]{10}"
+                  required
+                />
+              </label>
+              <label>
+                गाव:
+                <input
+                  type="text"
+                  name="village"
+                  value={formData.village}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                शेती क्षेत्र (गुंठे/एकर):
+                <input
+                  type="text"
+                  name="landSize"
+                  value={formData.landSize}
+                  onChange={handleChange}
+                />
+              </label>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+              {locationFetched ? (
+                location.lat && location.lng ? (
+                  <p>📍 तुमचे स्थान: {location.lat.toFixed(4)}, {location.lng.toFixed(4)}</p>
+                ) : (
+                  <p style={{ color: 'red' }}>❗ लोकेशन मिळवता आले नाही.</p>
+                )
+              ) : (
+                <p>📡 लोकेशन शोधत आहोत...</p>
+              )}
 
-            <button type="submit">नोंदणी करा</button>
-          </form>
-        )}
+              {error && <p style={{ color: 'red' }}>{error}</p>}
+
+              <button type="submit">नोंदणी करा</button>
+            </form>
+          )}
+        </Spin>
       </div>
     </div>
   );
